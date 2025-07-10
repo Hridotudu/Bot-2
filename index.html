@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hridoy Skill</title>
+  <title>Hridoy Tudu</title>
   <style>
     :root {
       --bg-color: #f0f2f5;
@@ -110,7 +110,7 @@
   </style>
 </head>
 <body><header>
-  📲 Developer: Hridoy Tudu
+  📲 Monetag Bot | Developer: Hridoy Tudu
   <span class="toggle-mode" onclick="toggleDarkMode()">🌙 Mode</span>
 </header><div class="container">
   <div id="home" class="section active">
@@ -128,11 +128,11 @@
     </div>
     <div class="card">
       <h3>📝 Tasks</h3>
-      <button class="btn" onclick="completeTask(https://t.me/Hridoy_Skill)">✅ Join Telegram</button>
-      <button class="btn" onclick="completeTask()">📺 Subscribe YouTube</button>
-      <button class="btn" onclick="completeTask()">📘 Like Facebook Page</button>
-      <button class="btn" onclick="completeTask()">📷 Follow Instagram</button>
-      <button class="btn" onclick="completeTask()">📤 Share Post</button>
+      <button class="btn" onclick="taskWithRedirect('https://t.me/Hridoy_Skill')">✅ Join Telegram</button>
+      <button class="btn" onclick="taskWithRedirect('https://youtube.com/@hridoy_skill_0.69?si=GfXezqZBlqsXYWVc')">📺 Subscribe YouTube</button>
+      <button class="btn" onclick="taskWithRedirect('https://facebook.com')">📘 Like Facebook Page</button>
+      <button class="btn" onclick="taskWithRedirect('https://instagram.com')">📷 Follow Instagram</button>
+      <button class="btn" onclick="taskWithRedirect('https://example.com/share')">📤 Share Post</button>
     </div>
   </div>  <div id="withdraw" class="section">
     <div class="card">
@@ -153,7 +153,7 @@
       <h3>👤 Profile</h3>
       <p>Total Ads: <strong id="adsWatchedProfile">0</strong></p>
       <p>Total Tasks: <strong id="tasksCompletedProfile">0</strong></p>
-      <p>Total Withdraw: <strong>$0.00</strong></p>
+      <p>Total Withdraw: <strong id="withdrawTotal">$0.00</strong></p>
       <p style="margin-top:10px;color:#888;">Developer: Hridoy Tudu</p>
     </div>
   </div>
@@ -167,6 +167,7 @@
   let balance = parseFloat(localStorage.getItem('balance')) || 0.000;
   let adsWatched = parseInt(localStorage.getItem('adsWatched')) || 0;
   let tasksCompleted = parseInt(localStorage.getItem('tasksCompleted')) || 0;
+  let totalWithdraw = parseFloat(localStorage.getItem('totalWithdraw')) || 0.000;
 
   function showTab(tabId) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -198,11 +199,19 @@
     }, 1000);
   }
 
-  function completeTask() {
-    balance += 0.005;
-    tasksCompleted++;
-    updateStats();
-    alert("✅ Task completed! $0.005 added.");
+  function taskWithRedirect(url) {
+    window.open(url);
+    let wait = 15;
+    let countdown = setInterval(() => {
+      wait--;
+      if (wait <= 0) {
+        clearInterval(countdown);
+        balance += 0.005;
+        tasksCompleted++;
+        updateStats();
+        alert("✅ Task complete. $0.005 added to balance.");
+      }
+    }, 1000);
   }
 
   function updateStats() {
@@ -211,19 +220,21 @@
     document.getElementById("adsWatchedProfile").innerText = adsWatched;
     document.getElementById("tasksCompleted").innerText = tasksCompleted;
     document.getElementById("tasksCompletedProfile").innerText = tasksCompleted;
+    document.getElementById("withdrawTotal").innerText = `$${totalWithdraw.toFixed(3)}`;
     localStorage.setItem('balance', balance);
     localStorage.setItem('adsWatched', adsWatched);
     localStorage.setItem('tasksCompleted', tasksCompleted);
+    localStorage.setItem('totalWithdraw', totalWithdraw);
   }
 
   function submitWithdraw() {
-    const amount = document.getElementById("withdrawAmount").value;
+    const amount = parseFloat(document.getElementById("withdrawAmount").value);
     const method = document.getElementById("withdrawMethod").value;
-    if (!amount || !method) return alert("❌ Please fill all fields");
+    if (!amount || !method || amount > balance) return alert("❌ Fill all fields or check balance");
 
     const telegramBotURL = `https://api.telegram.org/bot7310981934:AAE05Bo05CBLadaTWPgZg79fgvHsPuW9s8I/sendMessage`;
     const chatId = "5965219037";
-    const message = `📤 New Withdraw Request:\nAmount: ${amount}\nMethod: ${method}\nBalance: $${balance.toFixed(3)}`;
+    const message = `📤 New Withdraw Request:\nAmount: $${amount}\nMethod: ${method}\nBalance Before: $${balance.toFixed(3)}`;
 
     fetch(telegramBotURL, {
       method: "POST",
@@ -231,7 +242,10 @@
       body: JSON.stringify({ chat_id: chatId, text: message })
     });
 
-    alert("✅ Withdraw request sent to admin!");
+    balance = 0;
+    totalWithdraw += amount;
+    updateStats();
+    alert("✅ Withdraw request sent. Balance reset.");
   }
 
   function toggleDarkMode() {
