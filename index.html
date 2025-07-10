@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Monetag Bot | Hridoy Tudu</title>
+  <title>Hridoy Tudutle>
   <style>
     :root {
       --bg-color: #f0f2f5;
@@ -100,17 +99,20 @@
       color: green;
       margin-top: 10px;
     }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
   </style>
 </head>
-<body>
-
-<header>
-  📲 Monetag Bot | Developer: Hridoy Tudu
+<body><header>
+  📲  Developer: Hridoy Skill
   <span class="toggle-mode" onclick="toggleDarkMode()">🌙 Mode</span>
-</header>
-
-<div class="container">
-  <!-- Home Section -->
+</header><div class="container">
   <div id="home" class="section active">
     <div class="card">
       <h3>🏠 Dashboard</h3>
@@ -118,10 +120,7 @@
       <p>Ads Watched: <strong id="adsWatched">0</strong></p>
       <p>Tasks Completed: <strong id="tasksCompleted">0</strong></p>
     </div>
-  </div>
-
-  <!-- Earn Section -->
-  <div id="earn" class="section">
+  </div>  <div id="earn" class="section">
     <div class="card">
       <h3>▶️ Watch Ads</h3>
       <button class="btn" onclick="watchAd()">Watch Ad & Earn</button>
@@ -135,30 +134,21 @@
       <button class="btn" onclick="completeTask()">📷 Follow Instagram</button>
       <button class="btn" onclick="completeTask()">📤 Share Post</button>
     </div>
-  </div>
-
-  <!-- Withdraw Section -->
-  <div id="withdraw" class="section">
+  </div>  <div id="withdraw" class="section">
     <div class="card">
       <h3>💸 Withdraw</h3>
-      <input type="text" placeholder="Amount" class="btn" style="background:#eee; color:#000;" />
-      <input type="text" placeholder="Payment Method / ID" class="btn" style="background:#eee; color:#000;" />
-      <button class="btn">Submit Request</button>
+      <input id="withdrawAmount" type="text" placeholder="Enter Amount">
+      <input id="withdrawMethod" type="text" placeholder="Payment Method or Account">
+      <button class="btn" onclick="submitWithdraw()">Submit Request</button>
     </div>
-  </div>
-
-  <!-- Contact Section -->
-  <div id="contact" class="section">
+  </div>  <div id="contact" class="section">
     <div class="card">
       <h3>📞 Contact</h3>
       <button class="btn" onclick="window.open('https://t.me/your_admin_bot')">Chat with Admin</button>
       <button class="btn" onclick="window.open('https://t.me/your_owner_username')">Contact Owner</button>
       <button class="btn">📹 Watch Help Video</button>
     </div>
-  </div>
-
-  <!-- Profile Section -->
-  <div id="profile" class="section">
+  </div>  <div id="profile" class="section">
     <div class="card">
       <h3>👤 Profile</h3>
       <p>Total Ads: <strong id="adsWatchedProfile">0</strong></p>
@@ -167,20 +157,13 @@
       <p style="margin-top:10px;color:#888;">Developer: Hridoy Tudu</p>
     </div>
   </div>
-</div>
-
-<nav>
+</div><nav>
   <button onclick="showTab('home')">🏠 Home</button>
   <button onclick="showTab('earn')">💰 Earn</button>
   <button onclick="showTab('withdraw')">💸 Withdraw</button>
   <button onclick="showTab('contact')">📞 Contact</button>
   <button onclick="showTab('profile')">👤 Profile</button>
-</nav>
-
-<!-- Monetag SDK -->
-<script src="//libtl.com/sdk.js" data-zone="9506403" data-sdk="show_9506403"></script>
-
-<script>
+</nav><script src="//libtl.com/sdk.js" data-zone="9506403" data-sdk="show_9506403"></script><script>
   let balance = 0.000;
   let adsWatched = 0;
   let tasksCompleted = 0;
@@ -201,7 +184,6 @@
 
     let sec = 15;
     status.innerText = `⏳ Please watch... ${sec}s`;
-
     let timer = setInterval(() => {
       sec--;
       if (sec > 0) {
@@ -231,12 +213,28 @@
     document.getElementById("tasksCompletedProfile").innerText = tasksCompleted;
   }
 
+  function submitWithdraw() {
+    const amount = document.getElementById("withdrawAmount").value;
+    const method = document.getElementById("withdrawMethod").value;
+    if (!amount || !method) return alert("❌ Please fill all fields");
+
+    const telegramBotURL = `https://api.telegram.org/bot7310981934:AAE05Bo05CBLadaTWPgZg79fgvHsPuW9s8I/sendMessage`;
+    const chatId = "5965219037";
+    const message = `📤 New Withdraw Request:\nAmount: ${amount}\nMethod: ${method}\nBalance: $${balance.toFixed(3)}`;
+
+    fetch(telegramBotURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text: message })
+    });
+
+    alert("✅ Withdraw request sent to admin!");
+  }
+
   function toggleDarkMode() {
     document.body.classList.toggle('dark');
   }
 
   window.onload = updateStats;
-</script>
-
-</body>
+</script></body>
 </html>
