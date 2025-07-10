@@ -1,169 +1,173 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monetag Bot | Developer: Hridoy Tudu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Monetag Earn Bot | Hridoy Tudu</title>
   <style>
-    body { font-family: sans-serif; background: #f9f9f9; margin: 0; padding-bottom: 70px; }
-    header { background: #007bff; color: white; padding: 15px; text-align: center; font-size: 20px; font-weight: bold; }
-    .section { display: none; padding: 15px; max-width: 500px; margin: auto;}
-    .section.active { display: block; }
-    .card { background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 3px 8px rgba(0,0,0,0.1); }
-    .card h3 { margin-bottom: 10px; color: #007bff; }
-    .btn { display: block; width: 100%; padding: 12px; margin-top: 10px; background: linear-gradient(45deg, #007bff, #00bfff); color: white; font-weight: bold; border: none; border-radius: 25px; font-size: 15px; cursor: pointer; }
-    .btn:active { transform: scale(0.98); }
-    nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; display: flex; justify-content: space-around; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
-    nav button { flex: 1; padding: 12px 0; border: none; background: none; font-size: 14px; color: #777; font-weight: bold; }
-    nav button.active { color: #007bff; }
-    #adTimer { font-weight: bold; color: green; margin-top: 10px; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding-bottom: 80px;
+    }
+    header {
+      background: linear-gradient(90deg, #007bff, #00c6ff);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+    }
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(45deg, #007bff, #00c6ff);
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      display: flex;
+      justify-content: space-around;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    }
+    nav button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: none;
+      font-weight: bold;
+      color: #007bff;
+      font-size: 16px;
+    }
+    .info {
+      font-weight: bold;
+      color: green;
+      margin-top: 10px;
+    }
   </style>
-  <!-- Monetag SDK Preloader -->
-  <script>
-    window.adsbylibtl = window.adsbylibtl || [];
-  </script>
-  <script async src="https://libtl.com/sdk.js" data-zone="9476147" data-sdk="show_9476147"></script>
 </head>
-<body>
-
-<header>💸 Monetag Bot | Developer: Hridoy Tudu</header>
-
-<!-- Home Tab -->
-<div class="section active" id="home">
-  <div class="card">
-    <h3>📊 Dashboard</h3>
-    <p>Ads Watched: <strong id="adsWatched">0</strong></p>
-    <p>Tasks Done: <strong id="tasksDone">0</strong></p>
-    <p>Balance: <strong id="balance">$0.000</strong></p>
-    <h4>🧾 History</h4>
-    <ul id="history"></ul>
+<body><header>📲 Monetag Bot | Developer: Hridoy Tudu</header><div class="container">
+  <div id="home" class="section active">
+    <div class="card">
+      <h3>🏠 Dashboard</h3>
+      <p>Balance: <strong id="balance">$0.000</strong></p>
+      <p>Ads Watched: <strong id="adsWatched">0</strong></p>
+      <p>Tasks Completed: <strong id="tasksCompleted">0</strong></p>
+    </div>
+  </div>  <div id="earn" class="section">
+    <div class="card">
+      <h3>▶️ Watch Ads</h3>
+      <button class="btn" onclick="watchAd()">Watch Ad & Earn</button>
+      <p class="info" id="ad-status">Click above to watch ad.</p>
+    </div>
+    <div class="card">
+      <h3>📝 Complete Tasks</h3>
+      <button class="btn">Join Telegram</button>
+      <button class="btn">Subscribe YouTube</button>
+      <button class="btn">Follow Instagram</button>
+      <button class="btn">Like Facebook Page</button>
+      <button class="btn">Share Post</button>
+    </div>
+  </div>  <div id="withdraw" class="section">
+    <div class="card">
+      <h3>💸 Withdraw</h3>
+      <button class="btn">Request Withdraw</button>
+      <input type="text" placeholder="Enter amount" class="btn" style="background:#eaeaea; color:#000;">
+      <button class="btn">Submit</button>
+    </div>
+  </div>  <div id="contact" class="section">
+    <div class="card">
+      <h3>📞 Contact</h3>
+      <button class="btn">Admin Support</button>
+      <button class="btn">Owner Support</button>
+      <button class="btn">📹 Watch Help Video</button>
+    </div>
+  </div>  <div id="profile" class="section">
+    <div class="card">
+      <h3>👤 Profile</h3>
+      <p>Total Ads: <strong id="adsWatchedProfile">0</strong></p>
+      <p>Total Tasks: <strong id="tasksCompletedProfile">0</strong></p>
+      <p>Total Withdraw: <strong>$0.00</strong></p>
+      <p style="margin-top: 10px; color: #888;">Developer: Hridoy Tudu</p>
+    </div>
   </div>
-</div>
+</div><nav>
+  <button onclick="showTab('home')">🏠 Home</button>
+  <button onclick="showTab('earn')">💰 Earn</button>
+  <button onclick="showTab('withdraw')">💸 Withdraw</button>
+  <button onclick="showTab('contact')">📞 Contact</button>
+  <button onclick="showTab('profile')">👤 Profile</button>
+</nav><script src="//libtl.com/sdk.js" data-zone="9506403" data-sdk="show_9506403"></script><script>
+  let balance = 0.000;
+  let adsWatched = 0;
 
-<!-- Earn Tab -->
-<div class="section" id="earn">
-  <div class="card">
-    <h3>▶️ Watch Ads (15s)</h3>
-    <button class="btn" onclick="watchAd()">🎬 Watch Ad</button>
-    <p id="adTimer"></p>
-  </div>
-  <div class="card">
-    <h3>📝 Tasks</h3>
-    <button class="btn" onclick="completeTask('Join Telegram', 'https://t.me/Hridoy_Skill')">📢 Join Telegram – $0.005</button>
-    <button class="btn" onclick="completeTask('Subscribe YouTube', 'https://youtube.com/@hridoy_skill_0.69')">▶️ Subscribe YouTube – $0.005</button>
-    <button class="btn" onclick="completeTask('Like Video', '#')">👍 Like Video – $0.005</button>
-    <button class="btn" onclick="completeTask('Follow Facebook', '#')">📘 Follow Facebook – $0.005</button>
-    <button class="btn" onclick="completeTask('Share Bot', '#')">🔗 Share Bot – $0.005</button>
-  </div>
-</div>
-
-<!-- Profile -->
-<div class="section" id="profile">
-  <div class="card">
-    <h3>👤 Profile Info</h3>
-    <p>Developer: Hridoy Tudu</p>
-    <p>Total Ads: <strong id="profileAds">0</strong></p>
-    <p>Total Tasks: <strong id="profileTasks">0</strong></p>
-    <p>Total Withdrawals: <strong id="withdrawCount">0</strong></p>
-    <p>Balance: <strong id="profileBalance">$0.000</strong></p>
-  </div>
-</div>
-
-<!-- Withdraw -->
-<div class="section" id="withdraw">
-  <div class="card">
-    <h3>💵 Withdraw Request</h3>
-    <input type="text" id="wallet" placeholder="Enter Wallet/UPI/Bkash" />
-    <input type="email" id="email" placeholder="Enter Email" />
-    <button class="btn" onclick="requestWithdraw()">📤 Submit Request</button>
-  </div>
-</div>
-
-<!-- Contact -->
-<div class="section" id="contact">
-  <div class="card">
-    <h3>📞 Contact</h3>
-    <button class="btn" onclick="window.open('https://t.me/your_admin')">Admin Support</button>
-    <button class="btn" onclick="window.open('https://t.me/your_owner')">Owner Support</button>
-    <button class="btn" onclick="window.open('https://youtube.com/@hridoy_skill_0.69')">🎥 Watch Tutorial</button>
-  </div>
-</div>
-
-<!-- Bottom Nav -->
-<nav>
-  <button class="active" onclick="showTab('home', this)">🏠<br>Home</button>
-  <button onclick="showTab('earn', this)">💰<br>Earn</button>
-  <button onclick="showTab('withdraw', this)">💵<br>Withdraw</button>
-  <button onclick="showTab('contact', this)">📞<br>Contact</button>
-  <button onclick="showTab('profile', this)">👤<br>Profile</button>
-</nav>
-
-<script>
-  let balance = 0, ads = 0, tasks = 0, withdraws = 0;
-
-  function showTab(id, btn) {
+  function showTab(tabId) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    updateUI();
+    document.getElementById(tabId).classList.add('active');
   }
 
   function watchAd() {
-    document.getElementById('adTimer').textContent = "⏳ Please wait 15s...";
-    // init SDK ad
-    try { (adsbylibtl = window.adsbylibtl || []).push({}); } catch {}
-    let s = 15;
+    const status = document.getElementById("ad-status");
+    if (typeof show_9506403 === "function") {
+      show_9506403();
+    } else {
+      alert("⚠️ Ads not loaded. Please refresh the page.");
+      return;
+    }
+
+    let seconds = 15;
+    status.innerText = `⏳ Watching ad... ${seconds}s`;
     const timer = setInterval(() => {
-      document.getElementById('adTimer').textContent = `⏳ ${s} seconds remaining...`;
-      s--;
-      if (s < 0) {
+      seconds--;
+      if (seconds > 0) {
+        status.innerText = `⏳ Watching ad... ${seconds}s`;
+      } else {
         clearInterval(timer);
-        ads++, balance += 0.005;
-        document.getElementById('adTimer').textContent = "✅ Earned $0.005!";
-        logHistory("Watched Ad – Earned $0.005");
-        updateUI();
+        balance += 0.005;
+        adsWatched++;
+        updateStats();
+        status.innerText = `✅ Ad completed! $0.005 added.`;
       }
     }, 1000);
   }
 
-  function completeTask(name, url) {
-    tasks++; balance += 0.005;
-    logHistory(`Completed Task: ${name}`);
-    window.open(url, '_blank');
-    updateUI();
+  function updateStats() {
+    document.getElementById("balance").innerText = `$${balance.toFixed(3)}`;
+    document.getElementById("adsWatched").innerText = adsWatched;
+    document.getElementById("adsWatchedProfile").innerText = adsWatched;
+    document.getElementById("tasksCompleted").innerText = 5;
+    document.getElementById("tasksCompletedProfile").innerText = 5;
   }
 
-  function requestWithdraw() {
-    const wallet = document.getElementById('wallet').value;
-    const email = document.getElementById('email').value;
-    if (!wallet || !email) return alert("Fill all fields!");
-    withdraws++;
-    logHistory(`Withdraw Requested: ${wallet}`);
-    document.getElementById('wallet').value = '';
-    document.getElementById('email').value = '';
-    alert("✅ Withdraw submitted!");
-    updateUI();
-  }
-
-  function logHistory(msg) {
-    const li = document.createElement('li');
-    li.textContent = "✅ " + msg;
-    document.getElementById('history').prepend(li);
-  }
-
-  function updateUI() {
-    document.getElementById('adsWatched').textContent = ads;
-    document.getElementById('tasksDone').textContent = tasks;
-    document.getElementById('balance').textContent = `$${balance.toFixed(3)}`;
-    document.getElementById('profileAds').textContent = ads;
-    document.getElementById('profileTasks').textContent = tasks;
-    document.getElementById('withdrawCount').textContent = withdraws;
-    document.getElementById('profileBalance').textContent = `$${balance.toFixed(3)}`;
-  }
-
-  updateUI();
-</script>
-
-</body>
+  window.onload = updateStats;
+</script></body>
 </html>
