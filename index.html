@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hridoy Tudutle>
+  <title>Hridoy Tudu</title>
   <style>
     :root {
       --bg-color: #f0f2f5;
@@ -110,7 +110,7 @@
   </style>
 </head>
 <body><header>
-  📲  Developer: Hridoy Skill
+  📲 Monetag Bot | Developer: Hridoy Tudu
   <span class="toggle-mode" onclick="toggleDarkMode()">🌙 Mode</span>
 </header><div class="container">
   <div id="home" class="section active">
@@ -146,7 +146,7 @@
       <h3>📞 Contact</h3>
       <button class="btn" onclick="window.open('https://t.me/your_admin_bot')">Chat with Admin</button>
       <button class="btn" onclick="window.open('https://t.me/your_owner_username')">Contact Owner</button>
-      <button class="btn">📹 Watch Help Video</button>
+      <button class="btn" onclick="window.open('https://youtube.com/@hridoy_skill_0.69?si=GfXezqZBlqsXYWVc')">📹 Watch Help Video</button>
     </div>
   </div>  <div id="profile" class="section">
     <div class="card">
@@ -164,9 +164,9 @@
   <button onclick="showTab('contact')">📞 Contact</button>
   <button onclick="showTab('profile')">👤 Profile</button>
 </nav><script src="//libtl.com/sdk.js" data-zone="9506403" data-sdk="show_9506403"></script><script>
-  let balance = 0.000;
-  let adsWatched = 0;
-  let tasksCompleted = 0;
+  let balance = parseFloat(localStorage.getItem('balance')) || 0.000;
+  let adsWatched = parseInt(localStorage.getItem('adsWatched')) || 0;
+  let tasksCompleted = parseInt(localStorage.getItem('tasksCompleted')) || 0;
 
   function showTab(tabId) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -211,6 +211,9 @@
     document.getElementById("adsWatchedProfile").innerText = adsWatched;
     document.getElementById("tasksCompleted").innerText = tasksCompleted;
     document.getElementById("tasksCompletedProfile").innerText = tasksCompleted;
+    localStorage.setItem('balance', balance);
+    localStorage.setItem('adsWatched', adsWatched);
+    localStorage.setItem('tasksCompleted', tasksCompleted);
   }
 
   function submitWithdraw() {
