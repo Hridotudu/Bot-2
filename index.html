@@ -2,41 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Monetag Bot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monetag Bot | Developer: Hridoy Tudu</title>
   <style>
     body { font-family: sans-serif; background: #f9f9f9; margin: 0; padding-bottom: 70px; }
     header { background: #007bff; color: white; padding: 15px; text-align: center; font-size: 20px; font-weight: bold; }
-    .section { display: none; padding: 15px; max-width: 500px; margin: auto; }
+    .section { display: none; padding: 15px; max-width: 500px; margin: auto;}
     .section.active { display: block; }
     .card { background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 3px 8px rgba(0,0,0,0.1); }
     .card h3 { margin-bottom: 10px; color: #007bff; }
-    .btn {
-      display: block; width: 100%; padding: 12px; margin-top: 10px;
-      background: linear-gradient(45deg, #007bff, #00bfff); color: white;
-      font-weight: bold; border: none; border-radius: 25px; font-size: 15px; cursor: pointer;
-    }
+    .btn { display: block; width: 100%; padding: 12px; margin-top: 10px; background: linear-gradient(45deg, #007bff, #00bfff); color: white; font-weight: bold; border: none; border-radius: 25px; font-size: 15px; cursor: pointer; }
     .btn:active { transform: scale(0.98); }
-    nav {
-      position: fixed; bottom: 0; left: 0; width: 100%;
-      background: white; display: flex; justify-content: space-around;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto;
-    }
-    nav button {
-      flex: 1; padding: 12px 0; border: none; background: none;
-      font-size: 14px; color: #777; font-weight: bold;
-    }
+    nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; display: flex; justify-content: space-around; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+    nav button { flex: 1; padding: 12px 0; border: none; background: none; font-size: 14px; color: #777; font-weight: bold; }
     nav button.active { color: #007bff; }
     #adTimer { font-weight: bold; color: green; margin-top: 10px; }
   </style>
-  <!-- ✅ Monetag SDK Script -->
-  <script src='//libtl.com/sdk.js' data-zone='9476147' data-sdk='show_9476147'></script>
+  <!-- Monetag SDK Preloader -->
+  <script>
+    window.adsbylibtl = window.adsbylibtl || [];
+  </script>
+  <script async src="https://libtl.com/sdk.js" data-zone="9476147" data-sdk="show_9476147"></script>
 </head>
 <body>
 
 <header>💸 Monetag Bot | Developer: Hridoy Tudu</header>
 
-<!-- 🏠 Home -->
+<!-- Home Tab -->
 <div class="section active" id="home">
   <div class="card">
     <h3>📊 Dashboard</h3>
@@ -48,7 +40,7 @@
   </div>
 </div>
 
-<!-- 💰 Earn -->
+<!-- Earn Tab -->
 <div class="section" id="earn">
   <div class="card">
     <h3>▶️ Watch Ads (15s)</h3>
@@ -65,7 +57,7 @@
   </div>
 </div>
 
-<!-- 👤 Profile -->
+<!-- Profile -->
 <div class="section" id="profile">
   <div class="card">
     <h3>👤 Profile Info</h3>
@@ -77,7 +69,7 @@
   </div>
 </div>
 
-<!-- 💵 Withdraw -->
+<!-- Withdraw -->
 <div class="section" id="withdraw">
   <div class="card">
     <h3>💵 Withdraw Request</h3>
@@ -87,7 +79,7 @@
   </div>
 </div>
 
-<!-- 📞 Contact -->
+<!-- Contact -->
 <div class="section" id="contact">
   <div class="card">
     <h3>📞 Contact</h3>
@@ -97,7 +89,7 @@
   </div>
 </div>
 
-<!-- ✅ Bottom Menu -->
+<!-- Bottom Nav -->
 <nav>
   <button class="active" onclick="showTab('home', this)">🏠<br>Home</button>
   <button onclick="showTab('earn', this)">💰<br>Earn</button>
@@ -106,7 +98,6 @@
   <button onclick="showTab('profile', this)">👤<br>Profile</button>
 </nav>
 
-<!-- ✅ Script -->
 <script>
   let balance = 0, ads = 0, tasks = 0, withdraws = 0;
 
@@ -119,25 +110,26 @@
   }
 
   function watchAd() {
-    document.getElementById('adTimer').textContent = "⏳ Please wait 15s for ad earnings...";
-    // SDK will auto show ad via script tag
+    document.getElementById('adTimer').textContent = "⏳ Please wait 15s...";
+    // init SDK ad
+    try { (adsbylibtl = window.adsbylibtl || []).push({}); } catch {}
     let s = 15;
     const timer = setInterval(() => {
       document.getElementById('adTimer').textContent = `⏳ ${s} seconds remaining...`;
       s--;
       if (s < 0) {
         clearInterval(timer);
-        ads++; balance += 0.005;
-        document.getElementById('adTimer').textContent = "✅ You earned $0.005!";
+        ads++, balance += 0.005;
+        document.getElementById('adTimer').textContent = "✅ Earned $0.005!";
         logHistory("Watched Ad – Earned $0.005");
         updateUI();
       }
     }, 1000);
   }
 
-  function completeTask(taskName, url) {
+  function completeTask(name, url) {
     tasks++; balance += 0.005;
-    logHistory(`Completed Task: ${taskName}`);
+    logHistory(`Completed Task: ${name}`);
     window.open(url, '_blank');
     updateUI();
   }
@@ -145,12 +137,12 @@
   function requestWithdraw() {
     const wallet = document.getElementById('wallet').value;
     const email = document.getElementById('email').value;
-    if (!wallet || !email) return alert("⚠️ Please fill all fields!");
+    if (!wallet || !email) return alert("Fill all fields!");
     withdraws++;
     logHistory(`Withdraw Requested: ${wallet}`);
     document.getElementById('wallet').value = '';
     document.getElementById('email').value = '';
-    alert("✅ Withdraw request submitted!");
+    alert("✅ Withdraw submitted!");
     updateUI();
   }
 
